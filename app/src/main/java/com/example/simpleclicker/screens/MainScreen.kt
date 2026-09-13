@@ -1,5 +1,6 @@
 package com.example.simpleclicker.screens
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -27,7 +28,10 @@ import kotlin.time.Duration.Companion.seconds
 private val global = GlobalProperties
 
 @Composable
-fun MainScreen(modifier: Modifier = Modifier) {
+fun MainScreen(
+    modifier: Modifier = Modifier,
+    onShopClicked: () -> Unit
+) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.primary
@@ -66,39 +70,24 @@ fun MainScreen(modifier: Modifier = Modifier) {
         }
         // Button
         Box(contentAlignment = Alignment.Center) {
-            Surface(
+            Column(
                 modifier = Modifier.padding(24.dp),
-                color = MaterialTheme.colorScheme.primary
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Column(modifier = Modifier.padding(24.dp)) {
-                    Box(
-                        contentAlignment = Alignment.Center,
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        ElevatedButton(onClick = { global.clicks += global.clicksPerTap }) {
-                            Text("$$$")
-                        }
-                    }
-                    Box(
-                        contentAlignment = Alignment.Center,
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        Text("$${global.clicks}")
-                    }
+                ElevatedButton(onClick = { global.clicks += global.clicksPerTap }) {
+                    Text("$$$")
                 }
+                Text("$${global.clicks}")
             }
         }
         // Shop
-        Box(modifier = Modifier.fillMaxSize()) {
-            Surface(
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .padding(bottom = 65.dp),
-                color = MaterialTheme.colorScheme.primary
-            ) {
-                ElevatedButton( onClick = { global.curScreen = CurrentScreen.Shop() } ) {
-                    Text("Shop")
-                }
+        Box(
+            modifier = Modifier.fillMaxSize().padding(bottom = 48.dp),
+            contentAlignment = Alignment.BottomCenter,
+        ) {
+            ElevatedButton( onClick = onShopClicked ) {
+                Text("Shop")
             }
         }
     }
@@ -108,6 +97,6 @@ fun MainScreen(modifier: Modifier = Modifier) {
 @Composable
 fun MainScreenPreview() {
     SimpleClickerTheme() {
-        MainScreen()
+        MainScreen(onShopClicked = {})
     }
 }

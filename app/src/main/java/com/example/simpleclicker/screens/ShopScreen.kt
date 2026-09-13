@@ -1,6 +1,7 @@
 package com.example.simpleclicker.screens
 
 import android.widget.Toast
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -33,31 +34,24 @@ private var Plus1PerTapCost by mutableStateOf(75)
 private var Plus1PerSecondCost by mutableStateOf(250)
 
 @Composable
-fun ShopScreen(modifier: Modifier = Modifier) {
+fun ShopScreen(
+    modifier: Modifier = Modifier,
+    onBackClicked: () -> Unit
+) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.primary
     ) {
-        Column {
-            Surface(
-                modifier = Modifier.padding(top = 30.dp),
-                color = MaterialTheme.colorScheme.primary
-            ) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 30.dp, end = 30.dp),
-                    contentAlignment = Alignment.TopStart
+        Column(
+            modifier = Modifier.padding(top = 48.dp)
+        ) {
+            Row {
+                Surface(
+                    modifier = Modifier.weight(1f).padding(start = 24.dp, end = 24.dp),
+                    color = MaterialTheme.colorScheme.primary
                 ) {
-                    Row {
-                        Surface(
-                            modifier = Modifier.weight(1f),
-                            color = MaterialTheme.colorScheme.primary
-                        ) {
-                            ElevatedButton(onClick = { global.curScreen = CurrentScreen.Main() }) {
-                                Text("Back to menu")
-                            }
-                        }
+                    ElevatedButton(onClick = onBackClicked) {
+                        Text("Back to menu")
                     }
                 }
             }
@@ -65,86 +59,50 @@ fun ShopScreen(modifier: Modifier = Modifier) {
                 val context = LocalContext.current
 
                 // First offer
-                Surface(
-                    modifier = Modifier
-                        .weight(1f)
-                        .width(30.dp),
-                    color = MaterialTheme.colorScheme.primary
+                Column(
+                    modifier = Modifier.weight(1f),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
                 ) {
-                    Column(modifier = Modifier.weight(1f)) {
-                        Box(
-                            modifier = Modifier.fillMaxWidth(),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            ElevatedButton(onClick = {
-                                if (global.clicks >= Plus1PerTapCost) {
-                                    global.clicks -= Plus1PerTapCost
-                                    global.clicksPerTap++
-                                    Plus1PerTapCost += Plus1PerTapCost / 2
-                                    Toast.makeText(context, "Successfully!", Toast.LENGTH_SHORT)
-                                        .show()
-                                } else {
-                                    Toast.makeText(context, "Not enough $!", Toast.LENGTH_SHORT)
-                                        .show()
-                                }
-                            }) {
-                                Text("Buy")
-                            }
+                    ElevatedButton(onClick = {
+                        if (global.clicks >= Plus1PerTapCost) {
+                            global.clicks -= Plus1PerTapCost
+                            global.clicksPerTap++
+                            Plus1PerTapCost += Plus1PerTapCost / 2
+                            Toast.makeText(context, "Successfully!", Toast.LENGTH_SHORT)
+                                .show()
+                        } else {
+                            Toast.makeText(context, "Not enough $!", Toast.LENGTH_SHORT)
+                                .show()
                         }
-                        Box(
-                            modifier = Modifier.fillMaxWidth(),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text("+1 $ per tap")
-                        }
-                        Box(
-                            modifier = Modifier.fillMaxWidth(),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text("Cost: $Plus1PerTapCost$")
-                        }
+                    }) {
+                        Text("Buy")
                     }
+                    Text("+1 $ per tap")
+                    Text("Cost: $Plus1PerTapCost$")
                 }
                 // Second offer
-                Surface(
-                    modifier = Modifier
-                        .weight(1f)
-                        .width(30.dp),
-                    color = MaterialTheme.colorScheme.primary
+                Column(
+                    modifier = Modifier.weight(1f),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
                 ) {
-                    Column(modifier = Modifier.weight(1f)) {
-                        Box(
-                            modifier = Modifier.fillMaxWidth(),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            ElevatedButton(onClick = {
-                                if (global.clicks >= Plus1PerSecondCost) {
-                                    global.clicks -= Plus1PerSecondCost
-                                    global.clicksPerSec++
-                                    Plus1PerSecondCost += Plus1PerSecondCost / 2
-                                    Toast.makeText(context, "Successfully!", Toast.LENGTH_SHORT)
-                                        .show()
-                                } else {
-                                    Toast.makeText(context, "Not enough $!", Toast.LENGTH_SHORT)
-                                        .show()
-                                }
-                            }) {
-                                Text("Buy")
-                            }
+                    ElevatedButton(onClick = {
+                        if (global.clicks >= Plus1PerSecondCost) {
+                            global.clicks -= Plus1PerSecondCost
+                            global.clicksPerSec++
+                            Plus1PerSecondCost += Plus1PerSecondCost / 2
+                            Toast.makeText(context, "Successfully!", Toast.LENGTH_SHORT)
+                                .show()
+                        } else {
+                            Toast.makeText(context, "Not enough $!", Toast.LENGTH_SHORT)
+                                .show()
                         }
-                        Box(
-                            modifier = Modifier.fillMaxWidth(),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text("+1 $ per second")
-                        }
-                        Box(
-                            modifier = Modifier.fillMaxWidth(),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text("Cost: $Plus1PerSecondCost$")
-                        }
+                    }) {
+                        Text("Buy")
                     }
+                    Text("+1 $ per second")
+                    Text("Cost: $Plus1PerSecondCost$")
                 }
             }
         }
@@ -155,6 +113,6 @@ fun ShopScreen(modifier: Modifier = Modifier) {
 @Composable
 fun ShopScenePreview() {
     SimpleClickerTheme() {
-        ShopScreen()
+        ShopScreen(onBackClicked = {})
     }
 }

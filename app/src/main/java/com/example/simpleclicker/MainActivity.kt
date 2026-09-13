@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.simpleclicker.screens.MainScreen
@@ -16,8 +18,11 @@ import com.example.simpleclicker.screens.ShopScreen
 import com.example.simpleclicker.ui.theme.SimpleClickerTheme
 import kotlinx.coroutines.delay
 import kotlin.time.Duration.Companion.seconds
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.getValue
 
 val global = GlobalProperties
+var currentScreen : CurrentScreen by mutableStateOf(CurrentScreen.Main())
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,11 +38,17 @@ class MainActivity : ComponentActivity() {
                 }
 
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    when(global.curScreen) {
+                    when(currentScreen) {
                         is CurrentScreen.Main ->
-                            MainScreen(modifier = Modifier.padding(innerPadding))
+                            MainScreen(
+                                modifier = Modifier.padding(innerPadding),
+                                onShopClicked = { currentScreen = CurrentScreen.Shop() }
+                            )
                         is CurrentScreen.Shop ->
-                            ShopScreen(modifier = Modifier.padding(innerPadding))
+                            ShopScreen(
+                                modifier = Modifier.padding(innerPadding),
+                                onBackClicked = { currentScreen = CurrentScreen.Main() }
+                            )
                     }
                 }
             }
