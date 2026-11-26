@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ElevatedButton
@@ -13,24 +12,16 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.example.simpleclicker.CurrentScreen
-import com.example.simpleclicker.GlobalProperties
-import com.example.simpleclicker.ui.theme.SimpleClickerTheme
-import kotlinx.coroutines.delay
-import kotlin.time.Duration.Companion.seconds
-
-private val global = GlobalProperties
+import com.example.simpleclicker.PropertiesViewModel
 
 @Composable
 fun MainScreen(
     modifier: Modifier = Modifier,
-    onShopClicked: () -> Unit
+    onShopClicked: () -> Unit,
+    propertiesViewModel: PropertiesViewModel
 ) {
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -50,7 +41,7 @@ fun MainScreen(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) {
-                    Text("$ per tap: ${global.clicksPerTap}")
+                    Text("$ per tap: ${propertiesViewModel.clicksPerTap}")
                 }
             }
             // Clicks per second
@@ -64,7 +55,7 @@ fun MainScreen(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) {
-                    Text("$ per second: ${global.clicksPerSec}")
+                    Text("$ per second: ${propertiesViewModel.clicksPerSec}")
                 }
             }
         }
@@ -75,10 +66,10 @@ fun MainScreen(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                ElevatedButton(onClick = { global.clicks += global.clicksPerTap }) {
+                ElevatedButton(onClick = { propertiesViewModel.onTap() }) {
                     Text("$$$")
                 }
-                Text("$${global.clicks}")
+                Text("$${propertiesViewModel.clicks}")
             }
         }
         // Shop
@@ -90,13 +81,5 @@ fun MainScreen(
                 Text("Shop")
             }
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun MainScreenPreview() {
-    SimpleClickerTheme() {
-        MainScreen(onShopClicked = {})
     }
 }
