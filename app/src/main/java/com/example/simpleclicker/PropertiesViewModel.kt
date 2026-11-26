@@ -22,19 +22,29 @@ class PropertiesViewModel : ViewModel() {
         private set
     var passiveCost by mutableStateOf(250)
         private set
+    var currentScreen by mutableStateOf<Screen>(Screen.Main)
+        private set
+
 
     fun onTap() {
         clicks += clicksPerTap
     }
-    fun onTapBuy() {
+    fun onTapBuy(): Boolean {
+        if (clicks < tapCost) return false
         clicks -= tapCost
         clicksPerTap++
         tapCost += tapCost / 2
+        return true
     }
-    fun onPassiveBuy() {
+    fun onPassiveBuy(): Boolean {
+        if (clicks < tapCost) return false
         clicks -= passiveCost
         clicksPerSec++
         passiveCost += passiveCost / 2
+        return true
+    }
+    fun navigateTo(screen: Screen) {
+        currentScreen = screen
     }
 
     private val tickerFlow = flow {

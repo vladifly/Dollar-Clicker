@@ -24,7 +24,7 @@ fun ShopScreen(
     propertiesViewModel: PropertiesViewModel
 ) {
     Surface(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.primary
     ) {
         Column(
@@ -52,8 +52,7 @@ fun ShopScreen(
                     verticalArrangement = Arrangement.Center
                 ) {
                     ElevatedButton(onClick = {
-                        if (propertiesViewModel.clicks >= propertiesViewModel.tapCost) {
-                            propertiesViewModel.onTapBuy()
+                        if (propertiesViewModel.onTapBuy()) {
                             Toast.makeText(context, "Successfully!", Toast.LENGTH_SHORT)
                                 .show()
                         } else {
@@ -73,8 +72,7 @@ fun ShopScreen(
                     verticalArrangement = Arrangement.Center
                 ) {
                     ElevatedButton(onClick = {
-                        if (propertiesViewModel.clicks >= propertiesViewModel.passiveCost) {
-                            propertiesViewModel.onPassiveBuy()
+                        if (propertiesViewModel.onPassiveBuy()) {
                             Toast.makeText(context, "Successfully!", Toast.LENGTH_SHORT)
                                 .show()
                         } else {

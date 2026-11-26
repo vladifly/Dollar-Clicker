@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -24,61 +25,71 @@ fun MainScreen(
     propertiesViewModel: PropertiesViewModel
 ) {
     Surface(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.primary
     ) {
-        Row(
-            modifier = Modifier.padding(top = 30.dp)
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Total clicks
-            Surface(
-                modifier = Modifier
-                    .weight(1f)
-                    .height(30.dp),
-                color = MaterialTheme.colorScheme.primary
+            Row(
+                modifier = Modifier.padding(top = 30.dp).weight(1f)
             ) {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
+                // Total clicks
+                Surface(
+                    modifier = Modifier
+                        .weight(1f)
+                        .height(30.dp),
+                    color = MaterialTheme.colorScheme.primary
                 ) {
-                    Text("$ per tap: ${propertiesViewModel.clicksPerTap}")
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text("$ per tap: ${propertiesViewModel.clicksPerTap}")
+                    }
                 }
-            }
-            // Clicks per second
-            Surface(
-                modifier = Modifier
-                    .weight(1f)
-                    .height(30.dp),
-                color = MaterialTheme.colorScheme.primary
-            ) {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
+                // Clicks per second
+                Surface(
+                    modifier = Modifier
+                        .weight(1f)
+                        .height(30.dp),
+                    color = MaterialTheme.colorScheme.primary
                 ) {
-                    Text("$ per second: ${propertiesViewModel.clicksPerSec}")
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text("$ per second: ${propertiesViewModel.clicksPerSec}")
+                    }
                 }
             }
-        }
-        // Button
-        Box(contentAlignment = Alignment.Center) {
-            Column(
-                modifier = Modifier.padding(24.dp),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
+            // Button
+            Box(
+                modifier = Modifier.weight(1f),
+                contentAlignment = Alignment.Center
             ) {
-                ElevatedButton(onClick = { propertiesViewModel.onTap() }) {
-                    Text("$$$")
+                Column(
+                    modifier = Modifier.padding(24.dp),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    ElevatedButton(onClick = { propertiesViewModel.onTap() }) {
+                        Text("$$$")
+                    }
+                    Text("$${propertiesViewModel.clicks}")
                 }
-                Text("$${propertiesViewModel.clicks}")
             }
-        }
-        // Shop
-        Box(
-            modifier = Modifier.fillMaxSize().padding(bottom = 48.dp),
-            contentAlignment = Alignment.BottomCenter,
-        ) {
-            ElevatedButton( onClick = onShopClicked ) {
-                Text("Shop")
+            // Shop
+            Box(
+                modifier = Modifier.padding(bottom = 48.dp).weight(1f),
+                contentAlignment = Alignment.BottomCenter,
+            ) {
+                ElevatedButton( onClick = onShopClicked ) {
+                    Text("Shop")
+                }
             }
         }
     }

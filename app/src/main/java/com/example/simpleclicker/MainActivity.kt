@@ -23,20 +23,19 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             val propertiesViewModel: PropertiesViewModel = viewModel()
-            var currentScreen by remember { mutableStateOf<Screen>(Screen.Main) }
             SimpleClickerTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    when(currentScreen) {
+                    when(propertiesViewModel.currentScreen) {
                         is Screen.Main ->
                             MainScreen(
                                 modifier = Modifier.padding(innerPadding),
-                                onShopClicked = { currentScreen = Screen.Shop },
+                                onShopClicked = { propertiesViewModel.navigateTo(Screen.Shop) },
                                 propertiesViewModel = propertiesViewModel
                             )
                         is Screen.Shop ->
                             ShopScreen(
                                 modifier = Modifier.padding(innerPadding),
-                                onBackClicked = { currentScreen = Screen.Main },
+                                onBackClicked = { propertiesViewModel.navigateTo(Screen.Main) },
                                 propertiesViewModel = propertiesViewModel
                             )
                     }
